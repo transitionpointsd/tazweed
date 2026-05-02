@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tazweed Hub | مركز التزويد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --dark: #111111;
+    --card: #181818;
+    --border: #2a2a2a;
+    --red: #e8002e;
+    --red-dark: #b0001f;
+    --orange: #ff6600;
+    --white: #f5f5f5;
+    --muted: #888;
+    --gold: #c8a832;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--red);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .logo-en {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 2px;
+  }
+
+  .logo-en span { color: var(--red); }
+
+  .logo-ar {
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  nav { display: flex; gap: 2rem; }
+
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: color 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  nav a:hover { color: var(--white); }
+
+  .cart-btn {
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s;
+    position: relative;
+  }
+
+  .cart-btn:hover { background: var(--red-dark); }
+
+  .cart-count {
+    background: var(--orange);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 900;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -6px;
+    left: -6px;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 50%, #0a0a0a 100%);
+  }
+
+  .hero-bg-lines {
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 40px,
+        rgba(232,0,46,0.03) 40px,
+        rgba(232,0,46,0.03) 41px
+      );
+    pointer-events: none;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,0,46,0.15) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(232,0,46,0.12);
+    border: 1px solid rgba(232,0,46,0.3);
+    color: var(--red);
+    padding: 0.3rem 1rem;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+    animation: pulse-border 2s infinite;
+  }
+
+  @keyframes pulse-border {
+    0%, 100% { border-color: rgba(232,0,46,0.3); }
+    50% { border-color: rgba(232,0,46,0.8); }
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--red);
+    border-radius: 50%;
+    animation: blink 1.5s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  .hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 .accent { color: var(--red); }
+  .hero h1 .sub { display: block; font-size: 0.5em; font-weight: 400; color: var(--muted); margin-top: 0.3rem; }
+
+  .hero-desc {
+    color: #aaa;
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    max-width: 480px;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 0.9rem 2rem;
+    border-radius: 4px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary:hover {
+    background: var(--red-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(232,0,46,0.4);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid var(--border);
+    padding: 0.9rem 2rem;
+    border-radius: 4px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--red);
+    color: var(--red);
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 2rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+  }
+
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--red);
+    display: block;
+  }
+  .stat-label { font-size: 0.75rem; color: var(--muted); }
+
+  /* ─── OFFER BANNER ─── */
+  .offer-banner {
+    background: linear-gradient(90deg, var(--red-dark), var(--red), #ff3355, var(--red), var(--red-dark));
+    background-size: 300% 100%;
+    animation: gradient-slide 4s linear infinite;
+    padding: 0.9rem 2rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+  }
+
+  @keyframes gradient-slide {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+
+  .offer-banner span { opacity: 0.8; margin: 0 1.5rem; }
+
+  /* ─── FEATURES ─── */
+  .features {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+
+  .feature-card:hover { border-color: var(--red); }
+
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .feature-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .feature-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+  /* ─── PRODUCTS SECTION ─── */
+  .products-section {
+    padding: 3rem 2rem 5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: 900;
+  }
+
+  .section-title span { color: var(--red); }
+
+  .section-subtitle { color: var(--muted); font-size: 0.85rem; margin-top: 0.3rem; }
+
+  /* ─── FILTERS ─── */
+  .filters {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .search-box {
+    flex: 1;
+    min-width: 200px;
+    max-width: 320px;
+    position: relative;
+  }
+
+  .search-box input {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--white);
+    padding: 0.65rem 1rem 0.65rem 2.5rem;
+    border-radius: 4px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    direction: rtl;
+  }
+
+  .search-box input::placeholder { color: var(--muted); }
+  .search-box input:focus { border-color: var(--red); }
+
+  .search-box::before {
+    content: '🔍';
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.85rem;
+    pointer-events: none;
+  }
+
+  .filter-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.65rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--red);
+    border-color: var(--red);
+    color: white;
+  }
+
+  .sort-select {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--white);
+    padding: 0.65rem 1rem;
+    border-radius: 4px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    outline: none;
+    direction: rtl;
+  }
+
+  /* ─── PRODUCT GRID ─── */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .product-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .product-card:hover {
+    border-color: var(--red);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(232,0,46,0.2);
+  }
+
+  .offer-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--red);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 900;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    z-index: 2;
+    letter-spacing: 1px;
+  }
+
+  .product-img-wrap {
+    width: 100%;
+    height: 180px;
+    background: #1a1a1a;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .product-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 1rem;
+    transition: transform 0.4s;
+  }
+
+  .product-card:hover .product-img-wrap img { transform: scale(1.05); }
+
+  .product-img-wrap .no-img {
+    font-size: 3rem;
+    opacity: 0.2;
+  }
+
+  .product-info {
+    padding: 1rem;
+  }
+
+  .product-code {
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-bottom: 0.4rem;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .product-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    color: var(--white);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .product-pricing {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .prices {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .price-offer {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--red);
+    line-height: 1;
+  }
+
+  .price-original {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+
+  .price-currency {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-right: 2px;
+  }
+
+  .add-btn {
+    background: rgba(232,0,46,0.1);
+    border: 1px solid rgba(232,0,46,0.3);
+    color: var(--red);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .add-btn:hover {
+    background: var(--red);
+    color: white;
+  }
+
+  .add-btn.added {
+    background: #1a3a1a;
+    border-color: #2a6a2a;
+    color: #4ade80;
+  }
+
+  /* ─── MODAL ─── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: modal-in 0.2s ease;
+  }
+
+  @keyframes modal-in {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: var(--border);
+    border: none;
+    color: var(--white);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    transition: background 0.2s;
+  }
+
+  .modal-close:hover { background: var(--red); }
+
+  .modal-img {
+    width: 100%;
+    height: 260px;
+    object-fit: contain;
+    background: #1a1a1a;
+    border-radius: 12px 12px 0 0;
+    padding: 1.5rem;
+  }
+
+  .modal-body { padding: 1.5rem; }
+
+  .modal-code {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    font-family: 'Oswald', sans-serif;
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-name {
+    font-size: 1.1rem;
+    font-weight: 900;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-pricing-box {
+    background: rgba(232,0,46,0.06);
+    border: 1px solid rgba(232,0,46,0.2);
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal-offer-price {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--red);
+  }
+
+  .modal-offer-price sup { font-size: 1rem; }
+
+  .modal-original-price {
+    font-size: 0.9rem;
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+
+  .modal-saving {
+    background: rgba(74,222,128,0.1);
+    border: 1px solid rgba(74,222,128,0.2);
+    color: #4ade80;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .modal-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .meta-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem;
+  }
+
+  .meta-label { font-size: 0.7rem; color: var(--muted); margin-bottom: 0.3rem; }
+  .meta-value { font-size: 0.9rem; font-weight: 700; }
+
+  .modal-actions { display: flex; gap: 1rem; }
+
+  .modal-add-btn {
+    flex: 1;
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 0.9rem;
+    border-radius: 6px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .modal-add-btn:hover { background: var(--red-dark); }
+  .modal-add-btn.added { background: #166534; }
+
+  .modal-whatsapp {
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 0.9rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .modal-whatsapp:hover { opacity: 0.85; }
+
+  /* ─── CART DRAWER ─── */
+  .cart-drawer {
+    position: fixed;
+    top: 0; left: 0;
+    width: 380px;
+    max-width: 100vw;
+    height: 100vh;
+    background: var(--dark);
+    border-right: 1px solid var(--border);
+    z-index: 300;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cart-drawer.open { transform: translateX(0); }
+
+  .cart-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .cart-header h2 { font-size: 1.1rem; font-weight: 900; }
+
+  .cart-close {
+    background: var(--card);
+    border: none;
+    color: var(--white);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+
+  .cart-close:hover { background: var(--red); }
+
+  .cart-items { flex: 1; overflow-y: auto; padding: 1rem; }
+
+  .cart-empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 3rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .cart-empty .empty-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+
+  .cart-item {
+    display: flex;
+    gap: 1rem;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 0.75rem;
+    background: var(--card);
+  }
+
+  .cart-item-img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    background: #1a1a1a;
+    border-radius: 4px;
+    padding: 4px;
+    flex-shrink: 0;
+  }
+
+  .cart-item-info { flex: 1; }
+
+  .cart-item-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 0.3rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .cart-item-price {
+    font-size: 0.85rem;
+    color: var(--red);
+    font-weight: 700;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .cart-item-remove {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.25rem;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+
+  .cart-item-remove:hover { color: var(--red); }
+
+  .cart-footer {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+
+  .cart-total-price {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.4rem;
+    color: var(--red);
+  }
+
+  .cart-note {
+    background: rgba(255,193,7,0.08);
+    border: 1px solid rgba(255,193,7,0.2);
+    border-radius: 6px;
+    padding: 0.75rem;
+    font-size: 0.78rem;
+    color: #ffc107;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .checkout-btn {
+    width: 100%;
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 6px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: opacity 0.2s;
+  }
+
+  .checkout-btn:hover { opacity: 0.9; }
+
+  /* ─── ABOUT SECTION ─── */
+  .about-section {
+    padding: 5rem 2rem;
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+  }
+
+  .about-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .about-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .about-tag {
+    background: rgba(232,0,46,0.1);
+    border: 1px solid rgba(232,0,46,0.25);
+    color: var(--red);
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .about-section h2 {
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 1.2rem;
+  }
+
+  .about-section h2 span { color: var(--red); }
+
+  .about-section p {
+    color: #aaa;
+    font-size: 0.95rem;
+    line-height: 1.9;
+    margin-bottom: 1rem;
+  }
+
+  .about-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .about-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+  }
+
+  .about-card-icon { font-size: 1.8rem; margin-bottom: 0.75rem; display: block; }
+  .about-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .about-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #080808;
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem 1.5rem;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 2rem;
+  }
+
+  .footer-brand .logo { margin-bottom: 1rem; }
+  .footer-brand p { color: var(--muted); font-size: 0.85rem; line-height: 1.8; max-width: 280px; }
+
+  .footer-col h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 0.6rem; }
+  .footer-col ul li a { color: #888; font-size: 0.85rem; text-decoration: none; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--white); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  .overlay-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 250;
+  }
+
+  .overlay-backdrop.open { display: block; }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--red); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .features { grid-template-columns: repeat(2, 1fr); }
+    .hero-content { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-stats { max-width: 400px; }
+    .about-inner { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    header { padding: 0 1rem; }
+    nav { display: none; }
+    .features { grid-template-columns: repeat(2, 1fr); }
+    .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+    .about-cards { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .modal-actions { flex-direction: column; }
+  }
+
+  @media (max-width: 480px) {
+    .features { grid-template-columns: 1fr; }
+    .hero-stats { grid-template-columns: repeat(3, 1fr); }
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ─── SCROLL ANIMATION ─── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESULTS COUNT ─── */
+  .results-info {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .results-info strong { color: var(--white); }
+
+  .no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--muted);
+    grid-column: 1 / -1;
+  }
+
+  .no-results .icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+
+  /* qty control */
+  .qty-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .qty-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--white);
+    width: 30px; height: 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .qty-btn:hover { border-color: var(--red); color: var(--red); }
+  .qty-val {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    min-width: 30px;
+    text-align: center;
+  }
+  .qty-label { font-size: 0.8rem; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="#" class="logo">
+    <div class="logo-icon">TH</div>
+    <div class="logo-text">
+      <span class="logo-en">TAZWEED <span>HUB</span></span>
+      <span class="logo-ar">مركز التزويد</span>
+    </div>
+  </a>
+  <nav>
+    <a href="#products">المنتجات</a>
+    <a href="#about">من نحن</a>
+    <a href="#contact">تواصل</a>
+  </nav>
+  <button class="cart-btn" onclick="toggleCart()">
+    <span class="cart-count" id="cartCount">0</span>
+    🛒 سلة الطلبات
+  </button>
+</header>
+
+<!-- OFFER BANNER -->
+<div class="offer-banner">
+  🔥 عرض الإطلاق — خصم 20% على جميع المنتجات خلال أول 6 أشهر
+  <span>·</span>
+  توصيل سريع داخل الرياض
+  <span>·</span>
+  قطع أداء عالية الجودة
+  <span>·</span>
+  🔥 عرض الإطلاق — خصم 20% على جميع المنتجات
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-lines"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div>
+      <div class="hero-badge">🏁 متخصصون في قطع الأداء</div>
+      <h1>
+        وجهتك الأولى
+        <span class="accent"> لقطع التزويد</span>
+        <span class="sub">Automotive Aftermarket Performance Parts</span>
+      </h1>
+      <p class="hero-desc">
+        منصة رقمية متخصصة في توفير قطع تزويد وتعديل السيارات عالية الأداء. نستهدف تمكين هواة الدرفت والمحترفين من الوصول إلى مكونات نادرة بجودة مضمونة وأسعار تنافسية.
+      </p>
+      <div class="hero-actions">
+        <a href="#products" class="btn-primary">🛒 تسوق الآن</a>
+        <a href="#about" class="btn-outline">اعرف أكثر</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">55+</span>
+        <span class="stat-label">منتج متاح</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">20%</span>
+        <span class="stat-label">خصم الإطلاق</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">30%</span>
+        <span class="stat-label">هامش الجودة</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">DTC</span>
+        <span class="stat-label">بيع مباشر</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">RUH</span>
+        <span class="stat-label">مستودع الرياض</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">🏁</span>
+        <span class="stat-label">جاهز للحلبة</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<div class="features fade-in">
+  <div class="feature-card">
+    <span class="feature-icon">⚡</span>
+    <h3>جودة مضمونة</h3>
+    <p>جميع القطع مختبرة ومعتمدة من خبراء التعديل على الحلبات السعودية</p>
+  </div>
+  <div class="feature-card">
+    <span class="feature-icon">🚚</span>
+    <h3>توصيل سريع</h3>
+    <p>توصيل نفس اليوم أو اليوم التالي داخل الرياض من مستودعنا المركزي</p>
+  </div>
+  <div class="feature-card">
+    <span class="feature-icon">💰</span>
+    <h3>أسعار تنافسية</h3>
+    <p>هامش ربح ثابت 30% فقط — لا وسطاء ولا تكاليف إضافية مخفية</p>
+  </div>
+  <div class="feature-card">
+    <span class="feature-icon">🔧</span>
+    <h3>دعم فني متخصص</h3>
+    <p>فريق من الخبراء الميكانيكيين لمساعدتك في اختيار القطعة المناسبة</p>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products-section" id="products">
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">كتالوج <span>المنتجات</span></h2>
+      <p class="section-subtitle">55 منتج متاح — خصم 20% مفعّل على جميع الأسعار</p>
+    </div>
+  </div>
+
+  <div class="filters">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="ابحث عن منتج..." oninput="filterProducts()">
+    </div>
+    <button class="filter-btn active" onclick="setSort('default', this)">الكل</button>
+    <button class="filter-btn" onclick="setSort('price-asc', this)">السعر: الأقل</button>
+    <button class="filter-btn" onclick="setSort('price-desc', this)">السعر: الأعلى</button>
+    <select class="sort-select" id="sortSelect" onchange="filterProducts()">
+      <option value="default">الترتيب الافتراضي</option>
+      <option value="price-asc">السعر تصاعدي</option>
+      <option value="price-desc">السعر تنازلي</option>
+      <option value="name">الاسم</option>
+    </select>
+  </div>
+
+  <div class="results-info" id="resultsInfo"></div>
+
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section fade-in" id="about">
+  <div class="about-inner">
+    <div>
+      <div class="about-tags">
+        <span class="about-tag">Automotive Aftermarket</span>
+        <span class="about-tag">Performance Parts</span>
+        <span class="about-tag">Drift Ready</span>
+        <span class="about-tag">Digital First</span>
+      </div>
+      <h2>نحن لا نبيع قطعاً...<br>نقدم <span>حلولاً هندسية</span></h2>
+      <p>
+        Tazweed Hub هي المنصة الرقمية الرائدة المتخصصة في توفير قطع تزويد وتعديل السيارات (Aftermarket Parts) عالية الأداء، حيث نستهدف تمكين جيل الشباب والمحترفين من الوصول إلى مكونات ميكانيكية وجمالية نادرة.
+      </p>
+      <p>
+        نركز على السيارات الرياضية اليابانية الكلاسيكية (نيسان R-Chassis و S-Chassis) بنموذج عمل DTC يضمن أسعاراً تنافسية وخدمة احترافية مباشرة لهواة التعديل في المملكة العربية السعودية.
+      </p>
+    </div>
+    <div class="about-cards">
+      <div class="about-card">
+        <span class="about-card-icon">🏎️</span>
+        <h3>نيش متخصص</h3>
+        <p>تركيز كامل على السيارات الرياضية اليابانية والدرفت بمعرفة فنية عميقة</p>
+      </div>
+      <div class="about-card">
+        <span class="about-card-icon">🌍</span>
+        <h3>مصادر عالمية</h3>
+        <p>شراكات مع موردين في اليابان، أستراليا، ألمانيا وشرق أوروبا</p>
+      </div>
+      <div class="about-card">
+        <span class="about-card-icon">📱</span>
+        <h3>Mobile First</h3>
+        <p>منصة مصممة بالكامل لتجربة الجوال — تسوق من الكراج أو الحلبة</p>
+      </div>
+      <div class="about-card">
+        <span class="about-card-icon">✅</span>
+        <h3>توافق مضمون</h3>
+        <p>نظام YMM الذكي يضمن توافق كل قطعة مع موديل سيارتك تحديداً</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="logo">
+        <div class="logo-icon">TH</div>
+        <div class="logo-text">
+          <span class="logo-en">TAZWEED <span>HUB</span></span>
+          <span class="logo-ar">مركز التزويد</span>
+        </div>
+      </a>
+      <p style="margin-top: 1rem;">
+        المنصة الرقمية الأولى لقطع أداء السيارات الرياضية في المملكة العربية السعودية. جودة عالمية، توصيل سريع، أسعار تنافسية.
+      </p>
+    </div>
+    <div class="footer-col">
+      <h4>روابط سريعة</h4>
+      <ul>
+        <li><a href="#products">المنتجات</a></li>
+        <li><a href="#about">من نحن</a></li>
+        <li><a href="#contact">تواصل معنا</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>تواصل معنا</h4>
+      <ul>
+        <li><a href="#">واتساب: اضغط هنا</a></li>
+        <li><a href="#">إنستجرام: @TazweedHub</a></li>
+        <li><a href="#">تيك توك: @TazweedHub</a></li>
+        <li><a href="#">الرياض، المملكة العربية السعودية</a></li>
+      </ul>
+    </div>
+  </div>
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <div class="footer-bottom">
+      <span>© 2025 Tazweed Hub — مركز التزويد. جميع الحقوق محفوظة.</span>
+      <span>نموذج عمل دراسي — غير مخصص للبيع الفعلي حالياً</span>
+    </div>
+  </div>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="overlay-backdrop" id="cartBackdrop" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h2>🛒 سلة الطلبات</h2>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <span class="empty-icon">🛒</span>
+      سلة الطلبات فارغة<br>ابدأ التسوق الآن!
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total">
+      <span>الإجمالي (بعد الخصم)</span>
+      <span class="cart-total-price" id="cartTotal">0 ر.س</span>
+    </div>
+    <div class="cart-note">
+      ⚠️ هذا نموذج عمل دراسي. لإتمام الطلب تواصل معنا عبر واتساب وسنخدمك بأسرع وقت ممكن.
+    </div>
+    <button class="checkout-btn" onclick="sendWhatsApp()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      إرسال الطلب عبر واتساب
+    </button>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <img class="modal-img" id="modalImg" src="" alt="">
+    <div class="modal-body">
+      <div class="modal-code" id="modalCode"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-pricing-box">
+        <div>
+          <div class="modal-offer-price"><sup>ر.س </sup><span id="modalOfferPrice"></span></div>
+          <div class="modal-original-price">السعر الأصلي: <span id="modalOriginalPrice"></span> ر.س</div>
+        </div>
+        <div class="modal-saving" id="modalSaving"></div>
+      </div>
+      <div class="modal-meta">
+        <div class="meta-item">
+          <div class="meta-label">كود المنتج</div>
+          <div class="meta-value" id="modalCodeVal" style="font-family:'Oswald',sans-serif; font-size:0.85rem; letter-spacing:1px;"></div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">نسبة الخصم</div>
+          <div class="meta-value" style="color: #4ade80;">20%</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">الحالة</div>
+          <div class="meta-value">✅ متوفر</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">التوصيل</div>
+          <div class="meta-value">🚚 سريع</div>
+        </div>
+      </div>
+      <div class="qty-control">
+        <span class="qty-label">الكمية:</span>
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <span class="qty-val" id="modalQty">1</span>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-add-btn" id="modalAddBtn" onclick="addModalToCart()">🛒 أضف للسلة</button>
+        <button class="modal-whatsapp" onclick="orderViaWhatsApp()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          طلب مباشر
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── PRODUCT DATA ───
+const PRODUCTS = [{"s":1,"code":"B0CR1C4TYG","name":"خزان سائل تبريد إضافي للرديتر 3 × 10 إنش للسيارة","price":410.99,"offer":328.79,"image":"https://m.media-amazon.com/images/I/51PStymWrcL._AC_UL320_.jpg"},{"s":2,"code":"B0C97C4DQ9","name":"ذراع ممسحة أمامية بديل للسيارة متوافق مع J10","price":192.77,"offer":154.22,"image":"https://m.media-amazon.com/images/I/41ZDTTda6zL._AC_UL320_.jpg"},{"s":3,"code":"B0FG676CZD","name":"دينمو شحن بديل لهوندا رقم 31100-RZP-G01","price":888.29,"offer":710.63,"image":"https://m.media-amazon.com/images/I/71GYsSHy4cL._AC_UL320_.jpg"},{"s":4,"code":"B0CPC2ZSYC","name":"مشبك طرف بطارية صغير للسيارة","price":336.89,"offer":269.51,"image":"https://m.media-amazon.com/images/I/41EA0TaLYvL._AC_UL320_.jpg"},{"s":5,"code":"B09YRMKHQW","name":"شريط إضاءة LED داخلي USB للسيارة 5 متر - أزرق فاتح","price":29.98,"offer":23.98,"image":"https://m.media-amazon.com/images/I/61l4aErjbSL._AC_UL320_.jpg"},{"s":6,"code":"B08CVBZ2VK","name":"فرشاة سلك فولاذ 3 قطع","price":10.0,"offer":8.0,"image":"https://m.media-amazon.com/images/I/61RKn3DWbLL._AC_UL320_.jpg"},{"s":7,"code":"B0CR6JQPVF","name":"مقبس ولاعة 12 فولت مقاوم للماء للسيارة - قطعتان","price":49.99,"offer":39.99,"image":"https://m.media-amazon.com/images/I/71-tSkPL9oL._AC_UL320_.jpg"},{"s":8,"code":"B0BXL395R7","name":"فلتر سحب هواء بارد للسيارة مقاس 64-76 ملم","price":142.75,"offer":114.2,"image":"https://m.media-amazon.com/images/I/71jURmajzeL._AC_UL320_.jpg"},{"s":9,"code":"B0F3J5978Y","name":"خطافات مسند رأس للمقاعد 4 قطع - رمادي","price":36.0,"offer":28.8,"image":"https://m.media-amazon.com/images/I/71dWOsXfM4L._AC_UL320_.jpg"},{"s":10,"code":"B0983YTY6H","name":"عدة تنظيف سيارة 9 قطع","price":28.0,"offer":22.4,"image":"https://m.media-amazon.com/images/I/71W1vZUQ2vL._AC_UL320_.jpg"},{"s":11,"code":"B092CWNR7M","name":"بوق سيارة مزدوج 12 فولت 300 ديسيبل - قطعتان","price":59.99,"offer":47.99,"image":"https://m.media-amazon.com/images/I/715GzonzS0L._AC_UL320_.jpg"},{"s":12,"code":"B06WVLJM94","name":"عدة طوارئ ومساعدة على الطريق 30 قطعة","price":45.57,"offer":36.46,"image":"https://m.media-amazon.com/images/I/71-Pi7cFthL._AC_UL320_.jpg"},{"s":13,"code":"B0CZ7Y23R2","name":"صندوق تخزين جانبي للباب الأمامي - قطعتان","price":69.99,"offer":55.99,"image":"https://m.media-amazon.com/images/I/71X90iNaefL._AC_UL320_.jpg"},{"s":14,"code":"B0F3J69V46","name":"خطافات مسند رأس للمقاعد 4 قطع - أسود","price":48.0,"offer":38.4,"image":"https://m.media-amazon.com/images/I/714pbYJJCeL._AC_UL320_.jpg"},{"s":15,"code":"B0D46YNBMJ","name":"شماعة ملابس لمقعد السيارة الخلفي - أسود","price":75.99,"offer":60.79,"image":"https://m.media-amazon.com/images/I/51YHw9IHRiL._AC_UL320_.jpg"},{"s":16,"code":"B0FPG3K3DQ","name":"ملصقات عاكسة وتحذيرية 3D لغطاء المحرك - 6 قطع","price":36.99,"offer":29.59,"image":"https://m.media-amazon.com/images/I/71UbsRp03jL._AC_UL320_.jpg"},{"s":17,"code":"B00P1N9OWG","name":"دواسات أرضية مطاط أسود قابلة للقص","price":39.36,"offer":31.49,"image":"https://m.media-amazon.com/images/I/61KLzHuALsL._AC_UL320_.jpg"},{"s":18,"code":"B0G8GYZ6CB","name":"وسادات سيليكون لأبواب السيارة لتخفيف الصدمات - 12 قطعة","price":44.99,"offer":35.99,"image":"https://m.media-amazon.com/images/I/61eFE2L6QfL._AC_UL320_.jpg"},{"s":19,"code":"B0GF19H92D","name":"طقم خرطوم وفوهات بخاخ الزجاج الأمامي 5 متر","price":54.29,"offer":43.43,"image":"https://m.media-amazon.com/images/I/7160fQYOfKL._AC_UL320_.jpg"},{"s":20,"code":"B0FXV9MMVS","name":"عداد ضغط زيت للسيارة 52 ملم","price":85.78,"offer":68.62,"image":"https://m.media-amazon.com/images/I/61a9L9fka1L._AC_UL320_.jpg"},{"s":21,"code":"B0DR1DYDYW","name":"سلك تمديد مقبس ولاعة 12/24 فولت بطول 6.6 قدم","price":56.75,"offer":45.4,"image":"https://m.media-amazon.com/images/I/71m4ldFCddL._AC_UL320_.jpg"},{"s":22,"code":"B0FD2X4DFD","name":"عازل صوت وحرارة بوتيل للسيارة 10 قطع 250 × 180 × 5 ملم","price":49.77,"offer":39.82,"image":"https://m.media-amazon.com/images/I/618az8eVEjL._AC_UL320_.jpg"},{"s":23,"code":"B0DPX4MVQC","name":"ملمع بلاستيك ولمعة داخلية للسيارة - عبوتان","price":40.48,"offer":32.38,"image":"https://m.media-amazon.com/images/I/51J1+LfiZLL._AC_UL320_.jpg"},{"s":24,"code":"B0FGDBFSL7","name":"طقم فرش تنظيف سيارة 7 قطع","price":19.52,"offer":15.62,"image":"https://m.media-amazon.com/images/I/71Jh8c-S7-L._AC_UL320_.jpg"},{"s":25,"code":"B0DF5D7FGY","name":"طقم فرش تنظيف الجنوط والإطارات 3 قطع","price":55.99,"offer":44.79,"image":"https://m.media-amazon.com/images/I/51pl0XzPLXL._AC_UL320_.jpg"},{"s":26,"code":"B0FMR7VFYW","name":"لعبة سيارات مونستر للأطفال - 4 قطع","price":38.99,"offer":31.19,"image":"https://m.media-amazon.com/images/I/71l4-o3ozNL._AC_UL320_.jpg"},{"s":27,"code":"B0FGHWX8R8","name":"ملمع بلاستيك داخلي للسيارة بلمعة كريستالية","price":44.79,"offer":35.83,"image":"https://m.media-amazon.com/images/I/41CmmX5rWuL._AC_UL320_.jpg"},{"s":28,"code":"B0D8DVT25W","name":"مرمم بلاستيك وتكاية داخلية للسيارة - عبوتان","price":38.24,"offer":30.59,"image":"https://m.media-amazon.com/images/I/517xEeOEYGL._AC_UL320_.jpg"},{"s":29,"code":"B0DBZFQBVD","name":"ملمع بلاستيك للسيارة بطلاء كريستالي","price":59.0,"offer":47.2,"image":"https://m.media-amazon.com/images/I/61vnN2KXS9L._AC_UL320_.jpg"},{"s":30,"code":"B0FJMFPKTM","name":"غطاء فتحة ذراع ممسحة أمامية من PVC","price":29.89,"offer":23.91,"image":"https://m.media-amazon.com/images/I/61XkPYkblSL._AC_UL320_.jpg"},{"s":31,"code":"B0FWRTFVNB","name":"ملصقات سيارات سباق للأطفال - 24 ورقة","price":26.1,"offer":20.88,"image":"https://m.media-amazon.com/images/I/810tpni07TL._AC_UL320_.jpg"},{"s":32,"code":"B0FGCSY8F3","name":"معجون تجديد بلاستيك السيارة 50 غرام","price":57.77,"offer":46.22,"image":"https://m.media-amazon.com/images/I/51h7MEIqpvL._AC_UL320_.jpg"},{"s":33,"code":"B0FX3YKX93","name":"مرمم مطاط وحواف أبواب للسيارة","price":45.7,"offer":36.56,"image":"https://m.media-amazon.com/images/I/61-c3XFnfJL._AC_UL320_.jpg"},{"s":34,"code":"B0BCJNHFNY","name":"عدة إصلاح بنشر وإطارات 70 قطعة","price":107.39,"offer":85.91,"image":"https://m.media-amazon.com/images/I/71t6St0ilQL._AC_UL320_.jpg"},{"s":35,"code":"B0FH4XMJNZ","name":"أكياس هدايا حفلة سيارات سباق - 12 كيس","price":55.99,"offer":44.79,"image":"https://m.media-amazon.com/images/I/81APog8anVL._AC_UL320_.jpg"},{"s":36,"code":"B0BW8K72YF","name":"ملصق شعار N Line للسيارة - فضي وأسود","price":69.63,"offer":55.7,"image":"https://m.media-amazon.com/images/I/51koR9sCs6L._AC_UL320_.jpg"},{"s":37,"code":"B00DNDBJVK","name":"دواسات أرضية شفافة مطاط للسيارة - 4 قطع","price":161.04,"offer":128.83,"image":"https://m.media-amazon.com/images/I/819faL1sFPL._AC_UL320_.jpg"},{"s":38,"code":"B09VGRC9J5","name":"شرائط زينة لفتحات المكيف الداخلية - 20 قطعة","price":39.64,"offer":31.71,"image":"https://m.media-amazon.com/images/I/71XwLrbF9-L._AC_UL320_.jpg"},{"s":39,"code":"B0CBBNT3N3","name":"ملصق 4x4 خلفي للسيارة - فضي","price":67.38,"offer":53.9,"image":"https://m.media-amazon.com/images/I/71L9Le8mTpL._AC_UL320_.jpg"},{"s":40,"code":"B0G6KR77ZJ","name":"إسفنجة تلميع الإطارات والحواف - 4 قطع","price":68.39,"offer":54.71,"image":"https://m.media-amazon.com/images/I/817aSR5TRPL._AC_UL320_.jpg"},{"s":41,"code":"B08P5NR5QP","name":"وصلة مقبس ولاعة أنثى 12 فولت مع فيوز - 2 قدم","price":89.62,"offer":71.7,"image":"https://m.media-amazon.com/images/I/61pzQ-BksWL._AC_UL320_.jpg"},{"s":42,"code":"B08T99WGN3","name":"أوراق معطر سيارة معلقة - 25 قطعة","price":71.32,"offer":57.06,"image":"https://m.media-amazon.com/images/I/71vVuFk45ZL._AC_UL320_.jpg"},{"s":43,"code":"B0BWTG8QB2","name":"ملصق كلب لطيف للسيارة من PVC","price":17.9,"offer":14.32,"image":"https://m.media-amazon.com/images/I/41biari1e9L._AC_UL320_.jpg"},{"s":44,"code":"B08CMRHYLB","name":"قابس ولاعة ذكر 20 أمبير مع سلك 1.2 متر","price":57.9,"offer":46.32,"image":"https://m.media-amazon.com/images/I/61XhcJOFNwL._AC_UL320_.jpg"},{"s":45,"code":"B0BWTK1KKM","name":"ملصقات حيوانات أليفة للسيارة - متعددة الألوان","price":17.9,"offer":14.32,"image":"https://m.media-amazon.com/images/I/41+v0UVBTLL._AC_UL320_.jpg"},{"s":46,"code":"B0BWTHH7J9","name":"ملصق كلاب لطيف للسيارة أو الثلاجة من PVC","price":17.9,"offer":14.32,"image":"https://m.media-amazon.com/images/I/51XFSb1hX7L._AC_UL320_.jpg"},{"s":47,"code":"B0CZ3FYW5X","name":"محول طاقة عالمي 30 واط 3-12 فولت مع 8 رؤوس","price":64.14,"offer":51.31,"image":"https://m.media-amazon.com/images/I/61L2yibbq8L._AC_UL320_.jpg"},{"s":48,"code":"B0FWXS49CT","name":"فوهات رشاش ماء للزجاج الأمامي لبورش كايين وباناميرا 2011-2016","price":103.0,"offer":82.4,"image":"https://m.media-amazon.com/images/I/51xvUD-OmYL._AC_UL320_.jpg"},{"s":49,"code":"B0B3KLLK8Q","name":"وصلة محول مقبس ولاعة أنثى إلى فيشة 5.5 × 2.1 ملم","price":65.58,"offer":52.46,"image":"https://m.media-amazon.com/images/I/51oScoN+tiL._AC_UL320_.jpg"},{"s":50,"code":"B0899CW2RQ","name":"بخاخ إزالة الصدأ 500 مل","price":102.22,"offer":81.78,"image":"https://m.media-amazon.com/images/I/518vBggH6hL._AC_UL320_.jpg"},{"s":51,"code":"B098QJLMKK","name":"غطاء طارة المقود ABS لجيب رانجلر وجلاديتور - 3 قطع","price":94.88,"offer":75.9,"image":"https://m.media-amazon.com/images/I/71MtFH+DQXL._AC_UL320_.jpg"},{"s":52,"code":"B0FN9SWH8V","name":"سلك طاقة لراديو متنقل مع فيوز - 30 سم","price":58.69,"offer":46.95,"image":"https://m.media-amazon.com/images/I/51VqSFw2FML._AC_UL320_.jpg"},{"s":53,"code":"B0FMJG475D","name":"شحم محمل عجلات بحري شديد التحمل","price":145.69,"offer":116.55,"image":"https://m.media-amazon.com/images/I/61x0EKrprIL._AC_UL320_.jpg"},{"s":54,"code":"B0DMWC4X8Y","name":"شاحن USB متعدد 6 منافذ 120 واط مع شاشة LED","price":61.99,"offer":49.59,"image":"https://m.media-amazon.com/images/I/61FCXSWY8dL._AC_UL320_.jpg"},{"s":55,"code":"B0F91Q9JXN","name":"مفتاح بواجي بمقبض T من الستانلس ستيل","price":137.59,"offer":110.07,"image":"https://m.media-amazon.com/images/I/61KsPu3VG0L._AC_UL320_.jpg"}];
+
+// ─── STATE ───
+let cart = [];
+let currentProduct = null;
+let currentQty = 1;
+let currentSort = 'default';
+
+// ─── RENDER PRODUCTS ───
+function renderProducts(list) {
+  const grid = document.getElementById('productsGrid');
+  const info = document.getElementById('resultsInfo');
+  info.innerHTML = `عرض <strong>${list.length}</strong> منتج من أصل <strong>${PRODUCTS.length}</strong>`;
+
+  if (list.length === 0) {
+    grid.innerHTML = `<div class="no-results"><span class="icon">🔍</span>لا توجد نتائج للبحث الحالي.<br>جرب كلمة بحث أخرى.</div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map(p => {
+    const inCart = cart.some(c => c.code === p.code);
+    return `
+    <div class="product-card" onclick="openModal(${p.s - 1})">
+      <div class="offer-badge">-20%</div>
+      <div class="product-img-wrap">
+        ${p.image ? `<img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.parentNode.querySelector('.no-img').style.display='block'">
+        <span class="no-img" style="display:none">🔧</span>` : `<span class="no-img">🔧</span>`}
+      </div>
+      <div class="product-info">
+        <div class="product-code">${p.code}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-pricing">
+          <div class="prices">
+            <span class="price-offer"><span class="price-currency">ر.س </span>${p.offer.toFixed(2)}</span>
+            <span class="price-original">ر.س ${p.price.toFixed(2)}</span>
+          </div>
+          <button class="add-btn ${inCart ? 'added' : ''}" onclick="event.stopPropagation(); addToCart(${p.s - 1})">
+            ${inCart ? '✓ مضاف' : '+ أضف'}
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── FILTER / SORT ───
+function filterProducts() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const sort = document.getElementById('sortSelect').value;
+  let list = [...PRODUCTS];
+  if (q) list = list.filter(p => p.name.toLowerCase().includes(q) || p.code.toLowerCase().includes(q));
+  if (sort === 'price-asc') list.sort((a, b) => a.offer - b.offer);
+  else if (sort === 'price-desc') list.sort((a, b) => b.offer - a.offer);
+  else if (sort === 'name') list.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
+  renderProducts(list);
+}
+
+function setSort(val, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sortSelect').value = val;
+  filterProducts();
+}
+
+// ─── CART ───
+function addToCart(idx) {
+  const p = PRODUCTS[idx];
+  const existing = cart.find(c => c.code === p.code);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ ...p, qty: 1 });
+  }
+  updateCartUI();
+  filterProducts();
+}
+
+function removeFromCart(code) {
+  cart = cart.filter(c => c.code !== code);
+  updateCartUI();
+  filterProducts();
+}
+
+function updateCartUI() {
+  const count = cart.reduce((s, c) => s + c.qty, 0);
+  document.getElementById('cartCount').textContent = count;
+  const total = cart.reduce((s, c) => s + c.offer * c.qty, 0);
+  document.getElementById('cartTotal').textContent = total.toFixed(2) + ' ر.س';
+
+  const itemsEl = document.getElementById('cartItems');
+  const footerEl = document.getElementById('cartFooter');
+
+  if (cart.length === 0) {
+    itemsEl.innerHTML = `<div class="cart-empty"><span class="empty-icon">🛒</span>سلة الطلبات فارغة<br>ابدأ التسوق الآن!</div>`;
+    footerEl.style.display = 'none';
+  } else {
+    footerEl.style.display = 'block';
+    itemsEl.innerHTML = cart.map(c => `
+      <div class="cart-item">
+        <img class="cart-item-img" src="${c.image}" alt="${c.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🔧</text></svg>'">
+        <div class="cart-item-info">
+          <div class="cart-item-name">${c.name}</div>
+          <div class="cart-item-price">${c.offer.toFixed(2)} ر.س × ${c.qty}</div>
+        </div>
+        <button class="cart-item-remove" onclick="removeFromCart('${c.code}')">✕</button>
+      </div>
+    `).join('');
+  }
+}
+
+function toggleCart() {
+  document.getElementById('cartDrawer').classList.toggle('open');
+  document.getElementById('cartBackdrop').classList.toggle('open');
+}
+
+function sendWhatsApp() {
+  if (cart.length === 0) return;
+  const total = cart.reduce((s, c) => s + c.offer * c.qty, 0);
+  let msg = '🛒 *طلب جديد من Tazweed Hub*\n\n';
+  cart.forEach(c => {
+    msg += `• ${c.name}\n  الكود: ${c.code}\n  الكمية: ${c.qty}\n  السعر: ${c.offer.toFixed(2)} ر.س\n\n`;
+  });
+  msg += `━━━━━━━━━━━━━\n*الإجمالي: ${total.toFixed(2)} ر.س* (بعد خصم 20%)`;
+  window.open('https://wa.me/966500000000?text=' + encodeURIComponent(msg), '_blank');
+}
+
+// ─── MODAL ───
+function openModal(idx) {
+  const p = PRODUCTS[idx];
+  currentProduct = p;
+  currentQty = 1;
+  document.getElementById('modalQty').textContent = 1;
+  document.getElementById('modalImg').src = p.image || '';
+  document.getElementById('modalCode').textContent = 'رقم المنتج: ' + p.code;
+  document.getElementById('modalCodeVal').textContent = p.code;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalOfferPrice').textContent = p.offer.toFixed(2);
+  document.getElementById('modalOriginalPrice').textContent = p.price.toFixed(2);
+  const saving = (p.price - p.offer).toFixed(2);
+  document.getElementById('modalSaving').textContent = 'توفير ' + saving + ' ر.س';
+  const inCart = cart.some(c => c.code === p.code);
+  const btn = document.getElementById('modalAddBtn');
+  btn.textContent = inCart ? '✓ تم الإضافة للسلة' : '🛒 أضف للسلة';
+  btn.className = 'modal-add-btn' + (inCart ? ' added' : '');
+  document.getElementById('productModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('productModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('productModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+function changeQty(delta) {
+  currentQty = Math.max(1, currentQty + delta);
+  document.getElementById('modalQty').textContent = currentQty;
+}
+
+function addModalToCart() {
+  if (!currentProduct) return;
+  const existing = cart.find(c => c.code === currentProduct.code);
+  if (existing) {
+    existing.qty += currentQty;
+  } else {
+    cart.push({ ...currentProduct, qty: currentQty });
+  }
+  updateCartUI();
+  filterProducts();
+  const btn = document.getElementById('modalAddBtn');
+  btn.textContent = '✓ تم الإضافة للسلة';
+  btn.className = 'modal-add-btn added';
+}
+
+function orderViaWhatsApp() {
+  if (!currentProduct) return;
+  const p = currentProduct;
+  const msg = `🏁 *طلب منتج من Tazweed Hub*\n\n• المنتج: ${p.name}\n• الكود: ${p.code}\n• الكمية: ${currentQty}\n• السعر: ${p.offer.toFixed(2)} ر.س (بعد خصم 20%)\n• الإجمالي: ${(p.offer * currentQty).toFixed(2)} ر.س\n\nأرجو التأكيد والتواصل.`;
+  window.open('https://wa.me/966500000000?text=' + encodeURIComponent(msg), '_blank');
+}
+
+// ─── SCROLL ANIMATION ───
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ─── INIT ───
+renderProducts(PRODUCTS);
+updateCartUI();
+</script>
+</body>
+</html>
